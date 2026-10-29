@@ -251,6 +251,7 @@ public class HomeController implements Controller {
     homeView.setEnabled(HomeView.ActionType.IMPORT_FURNITURE_LIBRARY, true);
     homeView.setEnabled(HomeView.ActionType.IMPORT_TEXTURE, true);
     homeView.setEnabled(HomeView.ActionType.IMPORT_TEXTURES_LIBRARY, true);
+    homeView.setEnabled(HomeView.ActionType.SORT_HOME_FURNITURE_BY_VOLUME, true);
     homeView.setEnabled(HomeView.ActionType.SORT_HOME_FURNITURE_BY_CATALOG_ID, true);
     homeView.setEnabled(HomeView.ActionType.SORT_HOME_FURNITURE_BY_NAME, true);
     homeView.setEnabled(HomeView.ActionType.SORT_HOME_FURNITURE_BY_WIDTH, true);

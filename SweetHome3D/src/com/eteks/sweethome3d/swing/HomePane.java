@@ -212,7 +212,7 @@ import com.eteks.sweethome3d.viewcontroller.View;
  */
 public class HomePane extends JRootPane implements HomeView {
   private enum MenuActionType {FILE_MENU, EDIT_MENU, FURNITURE_MENU, PLAN_MENU, VIEW_3D_MENU, HELP_MENU, 
-      OPEN_RECENT_HOME_MENU, ALIGN_OR_DISTRIBUTE_MENU, SORT_HOME_FURNITURE_MENU, DISPLAY_HOME_FURNITURE_PROPERTY_MENU, 
+      OPEN_RECENT_HOME_MENU, ALIGN_OR_DISTRIBUTE_MENU, SORT_HOME_FURNITURE_MENU, DISPLAY_HOME_FURNITURE_PROPERTY_MENU,
       MODIFY_TEXT_STYLE, GO_TO_POINT_OF_VIEW, SELECT_OBJECT_MENU, TOGGLE_SELECTION_MENU}
   
   private static final String MAIN_PANE_DIVIDER_LOCATION_VISUAL_PROPERTY     = "com.eteks.sweethome3d.SweetHome3D.MainPaneDividerLocation";
@@ -345,9 +345,11 @@ public class HomePane extends JRootPane implements HomeView {
     createAction(ActionType.IMPORT_FURNITURE_LIBRARY, preferences, controller, "importFurnitureLibrary");
     createAction(ActionType.IMPORT_TEXTURE, preferences, controller, "importTexture");
     createAction(ActionType.IMPORT_TEXTURES_LIBRARY, preferences, controller, "importTexturesLibrary");
-    createAction(ActionType.SORT_HOME_FURNITURE_BY_CATALOG_ID, preferences, 
+    createAction(ActionType.SORT_HOME_FURNITURE_BY_VOLUME, preferences,
+            furnitureController, "toggleFurnitureSort", HomePieceOfFurniture.SortableProperty.VOLUME);
+    createAction(ActionType.SORT_HOME_FURNITURE_BY_CATALOG_ID, preferences,
         furnitureController, "toggleFurnitureSort", HomePieceOfFurniture.SortableProperty.CATALOG_ID);
-    createAction(ActionType.SORT_HOME_FURNITURE_BY_NAME, preferences, 
+    createAction(ActionType.SORT_HOME_FURNITURE_BY_NAME, preferences,
         furnitureController, "toggleFurnitureSort", HomePieceOfFurniture.SortableProperty.NAME);
     createAction(ActionType.SORT_HOME_FURNITURE_BY_WIDTH, preferences, 
         furnitureController, "toggleFurnitureSort", HomePieceOfFurniture.SortableProperty.WIDTH);
@@ -1316,8 +1318,10 @@ public class HomePane extends JRootPane implements HomeView {
       addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_CATALOG_ID, 
           sortActions, HomePieceOfFurniture.SortableProperty.CATALOG_ID); 
     }
-    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_NAME, 
-        sortActions, HomePieceOfFurniture.SortableProperty.NAME); 
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_VOLUME,
+        sortActions, HomePieceOfFurniture.SortableProperty.VOLUME);
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_NAME,
+        sortActions, HomePieceOfFurniture.SortableProperty.NAME);
     addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_WIDTH, 
         sortActions, HomePieceOfFurniture.SortableProperty.WIDTH);
     addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_DEPTH, 
@@ -1419,11 +1423,11 @@ public class HomePane extends JRootPane implements HomeView {
       addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_CATALOG_ID, 
           displayPropertyActions, HomePieceOfFurniture.SortableProperty.CATALOG_ID); 
     }
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_NAME, 
-        displayPropertyActions, HomePieceOfFurniture.SortableProperty.NAME); 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_NAME,
+        displayPropertyActions, HomePieceOfFurniture.SortableProperty.NAME);
     addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_WIDTH, 
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.WIDTH);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_DEPTH, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_DEPTH,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.DEPTH);
     addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_HEIGHT, 
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.HEIGHT);

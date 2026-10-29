@@ -527,8 +527,8 @@ public class FurnitureController implements Controller {
       // the following list
       List<HomePieceOfFurniture.SortableProperty> propertiesOrder = 
           Arrays.asList(new HomePieceOfFurniture.SortableProperty [] {
-              HomePieceOfFurniture.SortableProperty.CATALOG_ID, 
-              HomePieceOfFurniture.SortableProperty.NAME, 
+              HomePieceOfFurniture.SortableProperty.CATALOG_ID,
+//              HomePieceOfFurniture.SortableProperty.NAME,
               HomePieceOfFurniture.SortableProperty.WIDTH,
               HomePieceOfFurniture.SortableProperty.DEPTH,
               HomePieceOfFurniture.SortableProperty.HEIGHT,

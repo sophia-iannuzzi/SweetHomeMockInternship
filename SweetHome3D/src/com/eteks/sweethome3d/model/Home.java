@@ -175,8 +175,7 @@ public class Home implements Serializable, Cloneable {
     copyHomeData(home, this);
     initListenersSupport(this);
     addModelListeners();
-  }    
-
+  }
   /**
    * Initializes new and transient home fields to their default values 
    * and reads home from <code>in</code> stream with default reading method.
