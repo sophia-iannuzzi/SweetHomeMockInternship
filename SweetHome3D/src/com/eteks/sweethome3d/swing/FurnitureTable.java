@@ -1121,7 +1121,7 @@ public class FurnitureTable extends JTable implements View, Printable {
                                  UserPreferences preferences) {
       switch (property) {
         case VOLUME :
-          return "volume";
+          return preferences.getLocalizedString(FurnitureTable.class, "volumeColumn");
         case CATALOG_ID :
           return preferences.getLocalizedString(FurnitureTable.class, "catalogIdColumn");
         case NAME :

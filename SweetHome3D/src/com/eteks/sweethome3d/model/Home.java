@@ -314,6 +314,7 @@ public class Home implements Serializable, Cloneable {
     if (this.furnitureVisibleProperties == null) {
       // Set the furniture properties that were visible before version 0.19 
       this.furnitureVisibleProperties = Arrays.asList(new HomePieceOfFurniture.SortableProperty [] {
+          HomePieceOfFurniture.SortableProperty.VOLUME,
           HomePieceOfFurniture.SortableProperty.NAME,
           HomePieceOfFurniture.SortableProperty.WIDTH,
           HomePieceOfFurniture.SortableProperty.DEPTH,

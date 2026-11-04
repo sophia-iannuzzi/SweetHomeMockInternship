@@ -389,7 +389,9 @@ public class HomePane extends JRootPane implements HomeView {
         furnitureController, "toggleFurnitureSortOrder");
     createAction(ActionType.DISPLAY_HOME_FURNITURE_CATALOG_ID, preferences, 
         furnitureController, "toggleFurnitureVisibleProperty", HomePieceOfFurniture.SortableProperty.CATALOG_ID);
-    createAction(ActionType.DISPLAY_HOME_FURNITURE_NAME, preferences, 
+    createAction(ActionType.DISPLAY_HOME_FURNITURE_VOLUME, preferences,
+            furnitureController, "toggleFurnitureVisibleProperty", HomePieceOfFurniture.SortableProperty.VOLUME);
+    createAction(ActionType.DISPLAY_HOME_FURNITURE_NAME, preferences,
         furnitureController, "toggleFurnitureVisibleProperty", HomePieceOfFurniture.SortableProperty.NAME);
     createAction(ActionType.DISPLAY_HOME_FURNITURE_WIDTH, preferences, 
         furnitureController, "toggleFurnitureVisibleProperty", HomePieceOfFurniture.SortableProperty.WIDTH);
@@ -1416,53 +1418,55 @@ public class HomePane extends JRootPane implements HomeView {
     JMenu displayPropertyMenu = new JMenu(
         this.menuActionMap.get(MenuActionType.DISPLAY_HOME_FURNITURE_PROPERTY_MENU));
     // Map displayProperty furniture properties to displayProperty actions
-    Map<HomePieceOfFurniture.SortableProperty, Action> displayPropertyActions = 
-        new LinkedHashMap<HomePieceOfFurniture.SortableProperty, Action>(); 
+    Map<HomePieceOfFurniture.SortableProperty, Action> displayPropertyActions =
+        new LinkedHashMap<HomePieceOfFurniture.SortableProperty, Action>();
     // Use catalog id if currency isn't null
     if (preferences.getCurrency() != null) {
-      addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_CATALOG_ID, 
-          displayPropertyActions, HomePieceOfFurniture.SortableProperty.CATALOG_ID); 
+      addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_CATALOG_ID,
+          displayPropertyActions, HomePieceOfFurniture.SortableProperty.CATALOG_ID);
     }
     addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_NAME,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.NAME);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_WIDTH, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_VOLUME,
+            displayPropertyActions, HomePieceOfFurniture.SortableProperty.VOLUME);
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_WIDTH,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.WIDTH);
     addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_DEPTH,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.DEPTH);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_HEIGHT, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_HEIGHT,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.HEIGHT);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_X, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_X,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.X);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_Y, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_Y,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.Y);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_ELEVATION, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_ELEVATION,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.ELEVATION);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_ANGLE, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_ANGLE,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.ANGLE);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_LEVEL, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_LEVEL,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.LEVEL);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_COLOR, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_COLOR,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.COLOR);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_TEXTURE, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_TEXTURE,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.TEXTURE);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_MOVABLE, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_MOVABLE,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.MOVABLE);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_DOOR_OR_WINDOW, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_DOOR_OR_WINDOW,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.DOOR_OR_WINDOW);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_VISIBLE, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_VISIBLE,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.VISIBLE);
     // Use prices if currency isn't null
     if (preferences.getCurrency() != null) {
-      addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_PRICE, 
+      addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_PRICE,
           displayPropertyActions, HomePieceOfFurniture.SortableProperty.PRICE);
-      addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_VALUE_ADDED_TAX_PERCENTAGE, 
+      addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_VALUE_ADDED_TAX_PERCENTAGE,
           displayPropertyActions, HomePieceOfFurniture.SortableProperty.VALUE_ADDED_TAX_PERCENTAGE);
-      addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_VALUE_ADDED_TAX, 
+      addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_VALUE_ADDED_TAX,
           displayPropertyActions, HomePieceOfFurniture.SortableProperty.VALUE_ADDED_TAX);
-      addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_PRICE_VALUE_ADDED_TAX_INCLUDED, 
+      addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_PRICE_VALUE_ADDED_TAX_INCLUDED,
           displayPropertyActions, HomePieceOfFurniture.SortableProperty.PRICE_VALUE_ADDED_TAX_INCLUDED);
     }
-    // Add radio button menu items to sub menu 
+    // Add radio button menu items to sub menu
     for (Map.Entry<HomePieceOfFurniture.SortableProperty, Action> entry : displayPropertyActions.entrySet()) {
       final HomePieceOfFurniture.SortableProperty furnitureProperty = entry.getKey();
       Action displayPropertyAction = entry.getValue();
@@ -1474,7 +1478,7 @@ public class HomePane extends JRootPane implements HomeView {
           public boolean isSelected() {
             return home.getFurnitureVisibleProperties().contains(furnitureProperty);
           }
-        }); 
+        });
       // Configure check box menu item action after setting its model to avoid losing its mnemonic
       displayPropertyMenuItem.setAction(displayPropertyAction);
       displayPropertyMenu.add(displayPropertyMenuItem);
@@ -3034,8 +3038,8 @@ public class HomePane extends JRootPane implements HomeView {
    * Adds to the menu a popup listener that will update the menu items able to select 
    * the selectable items in plan at the location where the menu will be triggered.
    */
-  private void addSelectObjectMenuItems(final JMenu           selectObjectMenu, 
-                                        final PlanController  planController, 
+  private void addSelectObjectMenuItems(final JMenu           selectObjectMenu,
+                                        final PlanController  planController,
                                         final UserPreferences preferences) {
     ((JPopupMenu)selectObjectMenu.getParent()).addPopupMenuListener(
         new PopupMenuListenerWithMouseLocation((JComponent)planController.getView()) {
@@ -3049,8 +3053,8 @@ public class HomePane extends JRootPane implements HomeView {
                   planController.getView().convertXPixelToModel(mouseLocation.x),
                   planController.getView().convertYPixelToModel(mouseLocation.y));
               // Prepare localized formatters
-              Map<Class<? extends Selectable>, SelectableFormat> formatters = 
-                  new HashMap<Class<? extends Selectable>, SelectableFormat>();            
+              Map<Class<? extends Selectable>, SelectableFormat> formatters =
+                  new HashMap<Class<? extends Selectable>, SelectableFormat>();
               formatters.put(Compass.class, new SelectableFormat<Compass>() {
                   public String format(Compass compass) {
                     return preferences.getLocalizedString(HomePane.class, "selectObject.compass");
@@ -3067,7 +3071,7 @@ public class HomePane extends JRootPane implements HomeView {
                 });
               formatters.put(Wall.class, new SelectableFormat<Wall>() {
                   public String format(Wall wall) {
-                    return preferences.getLocalizedString(HomePane.class, "selectObject.wall", 
+                    return preferences.getLocalizedString(HomePane.class, "selectObject.wall",
                         preferences.getLengthUnit().getFormatWithUnit().format(wall.getLength()));
                   }
                 });
@@ -3075,7 +3079,7 @@ public class HomePane extends JRootPane implements HomeView {
                   public String format(Room room) {
                     String roomInfo = room.getName() != null && room.getName().length() > 0
                         ? room.getName()
-                        : (room.isAreaVisible() 
+                        : (room.isAreaVisible()
                               ? preferences.getLengthUnit().getAreaFormatWithUnit().format(room.getArea())
                               : "");
                     if (room.isFloorVisible() && !room.isCeilingVisible()) {
@@ -3089,13 +3093,13 @@ public class HomePane extends JRootPane implements HomeView {
                 });
               formatters.put(Polyline.class, new SelectableFormat<Polyline>() {
                   public String format(Polyline polyline) {
-                    return preferences.getLocalizedString(HomePane.class, "selectObject.polyline", 
+                    return preferences.getLocalizedString(HomePane.class, "selectObject.polyline",
                         preferences.getLengthUnit().getFormatWithUnit().format(polyline.getLength()));
                   }
                 });
               formatters.put(DimensionLine.class, new SelectableFormat<DimensionLine>() {
                   public String format(DimensionLine dimensionLine) {
-                    return preferences.getLocalizedString(HomePane.class, "selectObject.dimensionLine", 
+                    return preferences.getLocalizedString(HomePane.class, "selectObject.dimensionLine",
                         preferences.getLengthUnit().getFormatWithUnit().format(dimensionLine.getLength()));
                   }
                 });
@@ -3108,7 +3112,7 @@ public class HomePane extends JRootPane implements HomeView {
                     }
                   }
                 });
-              
+
               for (final Selectable item : items) {
                 String format = null;
                 for (Map.Entry<Class<? extends Selectable>, SelectableFormat> entry : formatters.entrySet()) {
@@ -3131,11 +3135,11 @@ public class HomePane extends JRootPane implements HomeView {
               }
             }
           }
-   
+
           public void popupMenuWillBecomeInvisible(PopupMenuEvent ev) {
             selectObjectMenu.removeAll();
           }
-   
+
           public void popupMenuCanceled(PopupMenuEvent ev) {
           }
         });
