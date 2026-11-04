@@ -1320,10 +1320,10 @@ public class HomePane extends JRootPane implements HomeView {
       addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_CATALOG_ID, 
           sortActions, HomePieceOfFurniture.SortableProperty.CATALOG_ID); 
     }
-    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_VOLUME,
-        sortActions, HomePieceOfFurniture.SortableProperty.VOLUME);
     addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_NAME,
         sortActions, HomePieceOfFurniture.SortableProperty.NAME);
+    addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_VOLUME,
+            sortActions, HomePieceOfFurniture.SortableProperty.VOLUME);
     addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_WIDTH, 
         sortActions, HomePieceOfFurniture.SortableProperty.WIDTH);
     addActionToMap(ActionType.SORT_HOME_FURNITURE_BY_DEPTH, 
