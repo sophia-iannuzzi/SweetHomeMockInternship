@@ -182,6 +182,12 @@ public class HomePrintableComponent extends JComponent implements Printable {
     if (Thread.interrupted()) {
       throw new InterruptedPrinterException();
     }
+
+    // the current visible properties of the furniture
+    List<HomePieceOfFurniture.SortableProperty> oldVisibleProperties = this.home.getFurnitureVisibleProperties();
+
+    // adds the level column
+    this.controller.getFurnitureController().toggleFurnitureVisibleProperty(HomePieceOfFurniture.SortableProperty.LEVEL);
     
     Graphics2D g2D = (Graphics2D)g;
     g2D.setFont(this.defaultFont);
@@ -337,17 +343,7 @@ public class HomePrintableComponent extends JComponent implements Printable {
             clipBounds.width, (int)pageFormat.getImageableHeight());
       }
     }
-
-    // the current visible properties of the furniture
-    List<HomePieceOfFurniture.SortableProperty> oldVisibleProperties = this.home.getFurnitureVisibleProperties();
-    List<HomePieceOfFurniture.SortableProperty> changeVisibleProperties = this.home.getFurnitureVisibleProperties();
-    changeVisibleProperties.add(HomePieceOfFurniture.SortableProperty.LEVEL);
-    this.home.setFurnitureVisibleProperties(changeVisibleProperties);
-
-    
     View furnitureView = this.controller.getFurnitureController().getView();
-    //reset the visible properties
-    this.home.setFurnitureVisibleProperties(oldVisibleProperties);
 
     if (furnitureView != null 
         && (homePrint == null || homePrint.isFurniturePrinted())) {
@@ -432,7 +428,11 @@ public class HomePrintableComponent extends JComponent implements Printable {
         g2D.translate(-xFixedFooter, -yFixedFooter);
       }
     }  
-    pageFormat.setPaper(oldPaper);    
+    pageFormat.setPaper(oldPaper);
+
+    //reset the visible properties
+    this.home.setFurnitureVisibleProperties(oldVisibleProperties);
+
     return pageExists;
   }
 
