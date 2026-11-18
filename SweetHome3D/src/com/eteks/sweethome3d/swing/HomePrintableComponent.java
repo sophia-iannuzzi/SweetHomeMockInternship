@@ -383,17 +383,19 @@ public class HomePrintableComponent extends JComponent implements Printable {
         this.furniturePageCount++;
       }
     }
-    if (pageExists == NO_SUCH_PAGE 
-        && planView != null 
+    if (pageExists == NO_SUCH_PAGE
+        && planView != null
         && (homePrint == null || homePrint.isPlanPrinted())) {
-      // Try to print next plan view page
+    // Try to print next plan view page
       pageExists = ((Printable)planView).print(g2D, pageFormat, page - this.furniturePageCount);
       if (pageExists == PAGE_EXISTS
-          && !this.printablePages.contains(page)) {
+              && !this.printablePages.contains(page)) {
         this.printablePages.add(page);
         this.planPageCount++;
       }
     }
+
+    // for the 3D view
     View view3D = this.controller.getHomeController3D().getView();
     if (pageExists == NO_SUCH_PAGE
         && view3D != null
@@ -497,9 +499,15 @@ public class HomePrintableComponent extends JComponent implements Printable {
       // Count pages by printing in a dummy image
       this.pageCount = 0; 
       try {
+        Level originalLevel = this.home.getSelectedLevel();
+        List<Level> levels = this.home.getLevels();
+        int i = 0;
         while (print(dummyGraphics, pageFormat, this.pageCount) == Printable.PAGE_EXISTS) {
+          this.home.setSelectedLevel(levels.get(i));
           this.pageCount++;
+          i++;
         }
+        this.home.setSelectedLevel(originalLevel);
       } catch (PrinterException ex) {
         // There should be no reason that print fails if print is done on a dummy image
         throw new RuntimeException(ex);
