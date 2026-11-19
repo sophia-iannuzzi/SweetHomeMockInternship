@@ -254,10 +254,10 @@ public class HomePrintableComponent extends JComponent implements Printable {
       if (homePrint != null) {
         FontMetrics fontMetrics = g2D.getFontMetrics(this.headerFooterFont);
         float headerFooterHeight = fontMetrics.getAscent() + fontMetrics.getDescent() + HEADER_FOOTER_MARGIN;
-        
+
         // Retrieve variable values
-        int pageNumber = page + 1; 
-        int pageCount = getPageCount(); 
+        int pageNumber = page + 1;
+        int pageCount = getPageCount();
         String planScale = "?";
         if (homePrint.getPlanScale() != null) {
           planScale = "1/" + Math.round(1 / homePrint.getPlanScale());
@@ -268,11 +268,11 @@ public class HomePrintableComponent extends JComponent implements Printable {
             preferredScale = ((PlanComponent)planView).getPrintPreferredScale(g, pageFormat);
           } else if (planView instanceof MultipleLevelsPlanPanel) {
             preferredScale = ((MultipleLevelsPlanPanel)planView).getPrintPreferredScale(g, pageFormat);
-          }     
+          }
           if (preferredScale != null) {
             planScale = "1/" + Math.round(1 / preferredScale);
           }
-        }          
+        }
         if (page == 0) {
           this.printDate = new Date();
         }
@@ -288,9 +288,9 @@ public class HomePrintableComponent extends JComponent implements Printable {
              homeName, ContentManager.ContentType.SWEET_HOME_3D);
         Object [] variableValues = new Object [] {
             pageNumber, pageCount, planScale, this.printDate, homePresentationName, homeName, levelName};
-        
+
         // Create header text
-        String headerFormat = homePrint.getHeaderFormat();      
+        String headerFormat = homePrint.getHeaderFormat();
         if (headerFormat != null) {
           header = Variable.getMessageFormat(headerFormat).format(variableValues).trim();
           if (header.length() > 0) {
@@ -302,7 +302,7 @@ public class HomePrintableComponent extends JComponent implements Printable {
             header = null;
           }
         }
-        
+
         // Create footer text
         String footerFormat = homePrint.getFooterFormat();
         if (footerFormat != null) {
@@ -388,6 +388,7 @@ public class HomePrintableComponent extends JComponent implements Printable {
         && (homePrint == null || homePrint.isPlanPrinted())) {
     // Try to print next plan view page
       pageExists = ((Printable)planView).print(g2D, pageFormat, page - this.furniturePageCount);
+
       if (pageExists == PAGE_EXISTS
               && !this.printablePages.contains(page)) {
         this.printablePages.add(page);
@@ -499,15 +500,9 @@ public class HomePrintableComponent extends JComponent implements Printable {
       // Count pages by printing in a dummy image
       this.pageCount = 0; 
       try {
-        Level originalLevel = this.home.getSelectedLevel();
-        List<Level> levels = this.home.getLevels();
-        int i = 0;
         while (print(dummyGraphics, pageFormat, this.pageCount) == Printable.PAGE_EXISTS) {
-          this.home.setSelectedLevel(levels.get(i));
           this.pageCount++;
-          i++;
         }
-        this.home.setSelectedLevel(originalLevel);
       } catch (PrinterException ex) {
         // There should be no reason that print fails if print is done on a dummy image
         throw new RuntimeException(ex);
