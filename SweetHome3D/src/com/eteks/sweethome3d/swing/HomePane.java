@@ -4159,7 +4159,6 @@ public class HomePane extends JRootPane implements HomeView {
       Level originalLevel = this.home.getSelectedLevel();
       // set home to level 0
       this.home.setSelectedLevel(this.home.getLevels().get(0));
-
       new HomePDFPrinter(this.home, this.preferences, this.controller, getFont())
           .write(outputStream);
 

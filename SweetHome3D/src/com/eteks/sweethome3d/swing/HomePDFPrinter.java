@@ -93,12 +93,6 @@ public class HomePDFPrinter {
         if (Thread.interrupted()) {
           throw new InterruptedIOException();
         }
-
-        // check if next home level should be printed
-        if (page > pageCount - this.home.getLevels().size() - 1) {
-          // update home level to next
-          this.home.setSelectedLevel(this.home.getLevels().get(page - pageCount + this.home.getLevels().size()));
-        }
         PdfTemplate pdfTemplate = pdfContent.createTemplate((float)pageFormat.getWidth(), 
             (float)pageFormat.getHeight());
         Graphics g = pdfTemplate.createGraphicsShapes((float)pageFormat.getWidth(), 
