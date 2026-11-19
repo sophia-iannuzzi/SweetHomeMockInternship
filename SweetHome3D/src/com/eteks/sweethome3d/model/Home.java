@@ -158,7 +158,8 @@ public class Home implements Serializable, Cloneable {
         HomePieceOfFurniture.SortableProperty.WIDTH,
         HomePieceOfFurniture.SortableProperty.DEPTH,
         HomePieceOfFurniture.SortableProperty.HEIGHT,
-        HomePieceOfFurniture.SortableProperty.VISIBLE});
+        HomePieceOfFurniture.SortableProperty.VISIBLE,
+        HomePieceOfFurniture.SortableProperty.VOLUME});
     // Init transient lists and other fields
     init(true);
     addModelListeners();
@@ -174,8 +175,7 @@ public class Home implements Serializable, Cloneable {
     copyHomeData(home, this);
     initListenersSupport(this);
     addModelListeners();
-  }    
-
+  }
   /**
    * Initializes new and transient home fields to their default values 
    * and reads home from <code>in</code> stream with default reading method.
@@ -314,6 +314,7 @@ public class Home implements Serializable, Cloneable {
     if (this.furnitureVisibleProperties == null) {
       // Set the furniture properties that were visible before version 0.19 
       this.furnitureVisibleProperties = Arrays.asList(new HomePieceOfFurniture.SortableProperty [] {
+          HomePieceOfFurniture.SortableProperty.VOLUME,
           HomePieceOfFurniture.SortableProperty.NAME,
           HomePieceOfFurniture.SortableProperty.WIDTH,
           HomePieceOfFurniture.SortableProperty.DEPTH,
