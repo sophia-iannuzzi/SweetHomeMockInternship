@@ -4163,8 +4163,15 @@ public class HomePane extends JRootPane implements HomeView {
     boolean printInterrupted = false;
     try {
       outputStream = new FileOutputStream(pdfFile);
+      // get original level
+      Level originalLevel = this.home.getSelectedLevel();
+      // set home to level 0
+      this.home.setSelectedLevel(this.home.getLevels().get(0));
       new HomePDFPrinter(this.home, this.preferences, this.controller, getFont())
           .write(outputStream);
+
+      // reset home level
+      this.home.setSelectedLevel(originalLevel);
     } catch (InterruptedIOException ex) {
       printInterrupted = true;
       throw new InterruptedRecorderException("Print interrupted");      

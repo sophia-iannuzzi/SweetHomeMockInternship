@@ -37,11 +37,7 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.security.AccessControlException;
 import java.text.MessageFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -186,6 +182,12 @@ public class HomePrintableComponent extends JComponent implements Printable {
     if (Thread.interrupted()) {
       throw new InterruptedPrinterException();
     }
+
+    // the current visible properties of the furniture
+    List<HomePieceOfFurniture.SortableProperty> oldVisibleProperties = this.home.getFurnitureVisibleProperties();
+
+    // adds the level column
+    this.controller.getFurnitureController().toggleFurnitureVisibleProperty(HomePieceOfFurniture.SortableProperty.LEVEL);
     
     Graphics2D g2D = (Graphics2D)g;
     g2D.setFont(this.defaultFont);
@@ -252,10 +254,10 @@ public class HomePrintableComponent extends JComponent implements Printable {
       if (homePrint != null) {
         FontMetrics fontMetrics = g2D.getFontMetrics(this.headerFooterFont);
         float headerFooterHeight = fontMetrics.getAscent() + fontMetrics.getDescent() + HEADER_FOOTER_MARGIN;
-        
+
         // Retrieve variable values
-        int pageNumber = page + 1; 
-        int pageCount = getPageCount(); 
+        int pageNumber = page + 1;
+        int pageCount = getPageCount();
         String planScale = "?";
         if (homePrint.getPlanScale() != null) {
           planScale = "1/" + Math.round(1 / homePrint.getPlanScale());
@@ -266,11 +268,11 @@ public class HomePrintableComponent extends JComponent implements Printable {
             preferredScale = ((PlanComponent)planView).getPrintPreferredScale(g, pageFormat);
           } else if (planView instanceof MultipleLevelsPlanPanel) {
             preferredScale = ((MultipleLevelsPlanPanel)planView).getPrintPreferredScale(g, pageFormat);
-          }     
+          }
           if (preferredScale != null) {
             planScale = "1/" + Math.round(1 / preferredScale);
           }
-        }          
+        }
         if (page == 0) {
           this.printDate = new Date();
         }
@@ -286,9 +288,9 @@ public class HomePrintableComponent extends JComponent implements Printable {
              homeName, ContentManager.ContentType.SWEET_HOME_3D);
         Object [] variableValues = new Object [] {
             pageNumber, pageCount, planScale, this.printDate, homePresentationName, homeName, levelName};
-        
+
         // Create header text
-        String headerFormat = homePrint.getHeaderFormat();      
+        String headerFormat = homePrint.getHeaderFormat();
         if (headerFormat != null) {
           header = Variable.getMessageFormat(headerFormat).format(variableValues).trim();
           if (header.length() > 0) {
@@ -300,7 +302,7 @@ public class HomePrintableComponent extends JComponent implements Printable {
             header = null;
           }
         }
-        
+
         // Create footer text
         String footerFormat = homePrint.getFooterFormat();
         if (footerFormat != null) {
@@ -341,8 +343,8 @@ public class HomePrintableComponent extends JComponent implements Printable {
             clipBounds.width, (int)pageFormat.getImageableHeight());
       }
     }
-    
     View furnitureView = this.controller.getFurnitureController().getView();
+
     if (furnitureView != null 
         && (homePrint == null || homePrint.isFurniturePrinted())) {
       FurnitureTable furnitureTable = null;
@@ -354,14 +356,18 @@ public class HomePrintableComponent extends JComponent implements Printable {
         final Level selectedLevel = home.getSelectedLevel();
         furnitureTable = (FurnitureTable)furnitureView;
         furnitureFilter = furnitureTable.getFurnitureFilter();
-        furnitureTable.setFurnitureFilter(new FurnitureTable.FurnitureFilter() {
-            public boolean include(Home home, HomePieceOfFurniture piece) {
-              // Print only furniture at selected level when the plan or the 3D view is printed
-              return (furnitureFilter == null || furnitureFilter.include(home, piece))
-                  && piece.isAtLevel(selectedLevel)
-                  && (piece.getLevel() == null || piece.getLevel().isViewable());
-            }
-          });
+
+
+
+        // adds the filter
+//        furnitureTable.setFurnitureFilter(new FurnitureTable.FurnitureFilter() {
+//            public boolean include(Home home, HomePieceOfFurniture piece) {
+//              // Print only furniture at selected level when the plan or the 3D view is printed
+//              return (furnitureFilter == null || furnitureFilter.include(home, piece))
+//                  && piece.isAtLevel(selectedLevel)
+//                  && (piece.getLevel() == null || piece.getLevel().isViewable());
+//            }
+//          });
       } else {
         furnitureFilter = null;
       }
@@ -377,17 +383,25 @@ public class HomePrintableComponent extends JComponent implements Printable {
         this.furniturePageCount++;
       }
     }
-    if (pageExists == NO_SUCH_PAGE 
-        && planView != null 
+    if (pageExists == NO_SUCH_PAGE
+        && planView != null
         && (homePrint == null || homePrint.isPlanPrinted())) {
-      // Try to print next plan view page
+
+      if (page <= this.home.getLevels().size()) {
+        Level level = this.home.getLevels().get(page - 1);
+        this.home.setSelectedLevel(level);
+      }
+    // Try to print next plan view page
       pageExists = ((Printable)planView).print(g2D, pageFormat, page - this.furniturePageCount);
+
       if (pageExists == PAGE_EXISTS
-          && !this.printablePages.contains(page)) {
+              && !this.printablePages.contains(page)) {
         this.printablePages.add(page);
         this.planPageCount++;
       }
     }
+
+    // for the 3D view
     View view3D = this.controller.getHomeController3D().getView();
     if (pageExists == NO_SUCH_PAGE
         && view3D != null
@@ -422,7 +436,11 @@ public class HomePrintableComponent extends JComponent implements Printable {
         g2D.translate(-xFixedFooter, -yFixedFooter);
       }
     }  
-    pageFormat.setPaper(oldPaper);    
+    pageFormat.setPaper(oldPaper);
+
+    //reset the visible properties
+    this.home.setFurnitureVisibleProperties(oldVisibleProperties);
+
     return pageExists;
   }
 
